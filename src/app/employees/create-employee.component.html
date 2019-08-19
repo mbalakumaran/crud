@@ -1,0 +1,102 @@
+<form #employeeForm="ngForm"  (ngSubmit)="saveEmployee()">
+  <div class="panel panel-primay">
+    <div class="panel-heading">
+      <h3 class="panel-title">create employee</h3>
+    </div>
+    <div class="panel-body">
+      <div class="form-group" [class.has-error]="name.invalid && name.touched" [class.has-success]="name.valid">
+        <label for="name" class="control-label"> name </label>
+        <input type="text" id="name" name="name" [(ngModel)]="employee.name" #name="ngModel" class="form-control" required >
+        <span class="help-block" *ngIf="name.invalid && name.touched">
+          fullName required
+        </span>
+      </div>
+      <div class="form-group" [class.has-error]="email.invalid && email.touched" [class.has-success]="email.valid">
+        <label for="email" class="class="control-label=""> email: </label>
+        <input type="text" id="email" name="email" #email="ngModel" [(ngModel)]="employee.email" class="form-control" required [email]="employee.email!==''" >
+        <span class="help-block" *ngIf="email.errors?.requried && email.touched">
+          fullName required
+        </span>
+        <span class="help-block" *ngIf="email.errors?.email && email.touched">
+          fullName required
+        </span>
+      </div>
+      <div class="form-group" [class.has-error]="phoneNumber.invalid && phoneNumber.touched">
+        <label for="phoneNumber" class="control-label"> phoneNumber: </label>
+        <input type="text" id="phoneNumber" name="phoneNumber" [(ngModel)]="employee.phoneNumber" #phoneNumber="ngModel" class="form-control" required >
+        <span class="help-block" *ngIf="phoneNumber.invalid && phoneNumber.touched">
+          fullName required
+        </span>
+      </div>
+      <div class="form-group" [class.has-error]="gender.invalid && gender.touched">
+        <label for="email" class="control-label"> gender: </label>
+        <div class="form-control">
+          <label class="radio-link">
+            <input type="radio" value="male" name="gender" [(ngModel)]="employee.gender" required #gender="ngModel">
+            male
+          </label>
+          <label class="radio-link">
+            <input type="radio" value="female" name="gender" [(ngModel)]="employee.gender" required #gender="ngModel" >
+            female
+          </label>
+          <span class="help-block" *ngIf="gender.invalid && gender.touched">
+            fullName required
+          </span>
+        </div>
+      </div>
+      <div class="form-group " [class.has-error]="isActive.invalid && isActive.touched">
+        <div class="form-control">
+          <label class="checkbox-inline control-label" >
+            <input type="checkbox" name="isActive" [(ngModel)]="employee.isActive" [required]= "employee.isActive==null" #isActive="ngModel">
+            isActive
+          </label>
+        </div>
+        <span class="help-block" *ngIf="isActive.touched && isActive.errors?.required">
+          fullName required
+        </span>
+      </div>
+      <div class="form-group" [class.has-error]="department.invalid && department.touched" >
+        <label for="department" class="control-label">
+          department:
+        </label>
+        <select id="department" [appSelectValidator]="select" name="department" [(ngModel)]="employee.department" class="form-control" required #department="ngModel">
+          <option value="select">select department</option>
+          <option *ngFor= "let dept of departments" [value]="dept.id">
+            {{dept.name}}
+          </option>
+        </select>
+        <span class="help-block" *ngIf="department.invalid && department.touched">
+          fullName required
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="dateofbirth"> date of birth: </label>
+        <input type="date"  id="dateofbirth" name="dateofbirth" [(ngModel)]="employee.dateofbirth" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="photoPath"> photoPath: </label>
+        <input type="text" id="photoPath" name="photoPath" [(ngModel)]="employee.photoPath" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <button type="button" (click)= "togglePhotoPreview()" class="btn btn-primary" >
+        {{previewPhoto? "Hide": "Show"}}  preview
+        </button>
+      </div>
+
+      <div class="form-group">
+        <img [src]= "employee.photoPath" height="200" width="200" *ngIf="previewPhoto">
+      </div>
+
+    </div>
+    <div class="panel-footer">
+      <button type="submit" class="btn btn-primary" [disabled]="employeeForm.invalid" >save</button>
+    </div>
+  </div>
+</form>
+
+{{employeeForm.value | json}}
+
+{{employee | json}}
